@@ -10,6 +10,12 @@ function DashboardPage() {
 
   const navigate = useNavigate();
 
+
+  const sheetId = import.meta.env.VITE_SHEET_ID;
+  const apiKey = import.meta.env.VITE_API_KEY;
+  const sheetName = import.meta.env.VITE_SHEET_NAME;
+  
+
   useEffect(() => {
     const token = localStorage.getItem("authToken");
 
@@ -23,10 +29,6 @@ function DashboardPage() {
       setLoading(true);
       setError(null);
 
-      const sheetId = "1vwc803C8MwWBMc7ntCre3zJ5xZtG881HKkxlIrwwxNs";
-      const apiKey = "AIzaSyC0Ukhaij9Xyga_u3CktcwdOPaS7JjAreE"; 
-      const sheetName = "Sheet1"; 
-
       try {
         const response = await fetch(
           `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`
@@ -38,9 +40,9 @@ function DashboardPage() {
         }
 
         const result = await response.json();
-        const rows = result.values; 
+        const rows = result.values;
 
-       
+        
         const formattedData = rows.slice(1).map((row) => ({
           Domain: row[0] || "No Domain",
           "Niche 1": row[1] || "No Niche 1",
@@ -62,7 +64,7 @@ function DashboardPage() {
     }
 
     fetchData();
-  }, [navigate]);
+  }, [navigate, sheetId, apiKey, sheetName]);
 
   if (loading)
     return (
@@ -79,7 +81,7 @@ function DashboardPage() {
 
   return (
     <div className="w-screen min-h-screen bg-gray-100">
-        <DataTable data={data} itemsPerPage={15} />
+      <DataTable data={data} itemsPerPage={15} />
     </div>
   );
 }

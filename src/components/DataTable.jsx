@@ -46,7 +46,7 @@ function DataTable({ data, itemsPerPage }) {
   };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col bg-gray-100">
+    <div className="w-full min-h-screen flex flex-col bg-gray-100">
       <div className="p-4">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <p className="text-gray-600">Welcome to your dashboard. Here is your data:</p>
@@ -67,33 +67,30 @@ function DataTable({ data, itemsPerPage }) {
         />
       </div>
 
+      {/* Table Container */}
       <div className="flex-1 overflow-x-auto">
-        <table
-          className="w-full bg-white shadow-md rounded-lg border border-gray-200 table-fixed"
-          style={{ tableLayout: "fixed" }}
-        >
+        <table className="w-full bg-white shadow-md rounded-lg border border-gray-200">
           <thead>
             <tr className="bg-blue-500 text-white">
               {[
-                { label: "Domain", width: "15%" },
-                { label: "Niche 1", width: "13%" },
-                { label: "Niche 2", width: "13%" },
-                { label: "Traffic", width: "10%" },
-                { label: "DR", width: "10%" },
-                { label: "DA", width: "10%" },
-                { label: "Language", width: "10%" },
-                { label: "Price", width: "10%" },
-                { label: "Spam Score", width: "11%" },
+                "Domain",
+                "Niche 1",
+                "Niche 2",
+                "Traffic",
+                "DR",
+                "DA",
+                "Language",
+                "Price",
+                "Spam Score",
               ].map((column) => (
                 <th
-                  key={column.label}
-                  style={{ width: column.width }}
+                  key={column}
                   className="px-2 py-3 text-left text-sm font-medium cursor-pointer"
-                  onClick={() => handleSort(column.label)}
+                  onClick={() => handleSort(column)}
                 >
-                  {column.label}
+                  {column}
                   <span className="ml-2">
-                    {sortConfig.key === column.label ? (
+                    {sortConfig.key === column ? (
                       sortConfig.direction === "ascending" ? (
                         <ChevronUpIcon className="h-4 w-4 inline" />
                       ) : (
@@ -115,9 +112,9 @@ function DataTable({ data, itemsPerPage }) {
                   index % 2 === 0 ? "bg-gray-50" : "bg-white"
                 } hover:bg-gray-100`}
               >
-                <td className="px-2 py-4 text-sm text-gray-800">{item.Domain}</td>
-                <td className="px-2 py-4 text-sm text-gray-800">{item["Niche 1"]}</td>
-                <td className="px-2 py-4 text-sm text-gray-800">{item["Niche 2"]}</td>
+                <td className="px-2 py-4 text-sm text-gray-800 truncate">{item.Domain}</td>
+                <td className="px-2 py-4 text-sm text-gray-800 truncate">{item["Niche 1"]}</td>
+                <td className="px-2 py-4 text-sm text-gray-800 truncate">{item["Niche 2"]}</td>
                 <td className="px-2 py-4 text-sm text-gray-800">{item.Traffic}</td>
                 <td className="px-2 py-4 text-sm text-gray-800">{item.DR}</td>
                 <td className="px-2 py-4 text-sm text-gray-800">{item.DA}</td>
@@ -131,20 +128,20 @@ function DataTable({ data, itemsPerPage }) {
       </div>
 
       {/* Pagination Controls */}
-      <div className="mt-4 flex justify-between items-center p-4">
+      <div className="mt-4 flex justify-between items-center px-4">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
-          className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-800 text-white"
+          className="px-4 py-2 bg-blue-500 rounded text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
           disabled={currentPage === 1}
         >
           Previous
         </button>
-        <span>
+        <span className="text-sm">
           Page {currentPage} of {totalPages}
         </span>
         <button
           onClick={() => handlePageChange(currentPage + 1)}
-          className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-800 text-white"
+          className="px-4 py-2 bg-blue-500 rounded text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
           disabled={currentPage === totalPages}
         >
           Next
